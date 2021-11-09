@@ -6,6 +6,8 @@ import org.semanticweb.owlapi.io.OWLOntologyDocumentSource;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,8 +22,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 @SpringBootTest
 public class SingleDocumentProjectSourcesExtractor_TestCase {
 
-    @Mock
-    private File input;
+    private Path input = Paths.get("/tmp/file.owl");
 
     @Test
     public void shouldExtractProvidedDocument() {

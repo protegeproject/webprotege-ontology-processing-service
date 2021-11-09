@@ -13,9 +13,14 @@ public class WebProtegeOntologyProcessingServiceApplication {
 	}
 
 	@Bean
-	MinioClient minioClient() {
+	MinioProperties minioProperties() {
+		return new MinioProperties();
+	}
+
+	@Bean
+	MinioClient minioClient(MinioProperties properties) {
 		return MinioClient.builder()
-				.credentials(accessKey, secretKey)
+				.credentials(properties.getAccessKey(), properties.getSecretKey())
 				.endpoint("endpoint")
 						  .build();
 	}

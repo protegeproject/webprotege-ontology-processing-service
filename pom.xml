@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.stanford.webprotege</groupId>
 	<artifactId>webprotege-ontology-processing-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>6.0.0-SNAPSHOT</version>
 	<name>webprotege-ontology-processing-service</name>
 	<description>A service that processes ontologies before they get incorporated into a project</description>
 	<properties>
@@ -67,5 +67,17 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 </project>

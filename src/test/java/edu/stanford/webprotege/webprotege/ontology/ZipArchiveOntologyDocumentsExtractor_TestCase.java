@@ -37,18 +37,7 @@ public class ZipArchiveOntologyDocumentsExtractor_TestCase {
 //        assertThat(documentSources, hasItem(isFileDocumentSourceForFile(expectedDocumentFile)));
     }
 
-    @Test
-    public void shouldThrowFileNotFoundExceptionForMissingRootOntology() throws IOException {
-        assertThrows(FileNotFoundException.class, () -> {
-            var document = "/ontologies/ont.owl";
-            var zipFile = createZipFile(document);
-            var extractor = new ZipArchiveOntologyDocumentsExtractor();
-            extractor.extractOntologyDocuments(zipFile);
-        });
-    }
-
-
-    public File createZipFile(String document) throws IOException {
+    public Path createZipFile(String document) throws IOException {
         var zipFile = Files.createTempFile(tempDir, null, null).toFile();
         OutputStream out = new FileOutputStream(zipFile);
         var zipOutputStream = new ZipOutputStream(out);
@@ -57,7 +46,7 @@ public class ZipArchiveOntologyDocumentsExtractor_TestCase {
         zipOutputStream.putNextEntry(entryA);
         zipOutputStream.write(1);
         zipOutputStream.close();
-        return zipFile;
+        return zipFile.toPath();
     }
 
 }
