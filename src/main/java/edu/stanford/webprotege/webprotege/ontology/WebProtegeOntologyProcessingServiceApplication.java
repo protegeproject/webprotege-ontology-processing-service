@@ -1,11 +1,14 @@
 package edu.stanford.webprotege.webprotege.ontology;
 
+import edu.stanford.protege.webprotege.ipc.WebProtegeIpcApplication;
 import io.minio.MinioClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
+@Import(WebProtegeIpcApplication.class)
 public class WebProtegeOntologyProcessingServiceApplication {
 
 	public static void main(String[] args) {
@@ -21,7 +24,7 @@ public class WebProtegeOntologyProcessingServiceApplication {
 	MinioClient minioClient(MinioProperties properties) {
 		return MinioClient.builder()
 				.credentials(properties.getAccessKey(), properties.getSecretKey())
-				.endpoint("endpoint")
+				.endpoint(properties.getEndPoint())
 						  .build();
 	}
 
@@ -50,6 +53,18 @@ public class WebProtegeOntologyProcessingServiceApplication {
 	@Bean
 	ProcessedOntologyStorer processedOntologyStorer(MinioClient minioClient) {
 		return new ProcessedOntologyStorer(minioClient);
+	}
+
+	@Bean
+	UploadedOntologyDocumentsProcessor uploadedOntologyDocumentsProcessor(OWLOntologyManagerFactory p1,
+																		  UploadedOntologyDocumentsExtractor p2,
+																		  ProcessedOntologyStorer p3, MinioClient p4) {
+		return new UploadedOntologyDocumentsProcessor(p1, p2, p3, p4);
+	}
+
+	@Bean
+	OWLOntologyManagerFactory ontologyManagerFactory() {
+		return new OWLOntologyManagerFactory();
 	}
 
 }

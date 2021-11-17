@@ -1,6 +1,8 @@
 package edu.stanford.webprotege.webprotege.ontology;
 
 import edu.stanford.protege.webprotege.common.BlobLocation;
+import io.minio.BucketExistsArgs;
+import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.UploadObjectArgs;
 import io.minio.errors.*;
@@ -49,6 +51,8 @@ public class ProcessedOntologyStorer {
 
     private BlobLocation storeFile(Path tempFile) throws ErrorResponseException, InsufficientDataException, InternalException, InvalidKeyException, InvalidResponseException, IOException, NoSuchAlgorithmException, ServerException, XmlParserException {
         var location = generateBlobLocation();
+        // Create bucket if necessary
+        createBucketIfNecessary(location);
         minioClient.uploadObject(UploadObjectArgs.builder()
                                                  .filename(tempFile.toString())
                                                  .bucket(location.bucket())
@@ -56,6 +60,12 @@ public class ProcessedOntologyStorer {
                                                  .contentType("application/octet-stream")
                                                  .build());
         return location;
+    }
+
+    private void createBucketIfNecessary(BlobLocation location) throws ErrorResponseException, InsufficientDataException, InternalException, InvalidKeyException, InvalidResponseException, IOException, NoSuchAlgorithmException, ServerException, XmlParserException {
+        if(!minioClient.bucketExists(BucketExistsArgs.builder().bucket(location.bucket()).build())) {
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(location.bucket()).build());
+        }
     }
 
     private static Path createTempFile() throws IOException {
