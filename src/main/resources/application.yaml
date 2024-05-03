@@ -1,0 +1,31 @@
+server:
+  port: 7772
+
+spring:
+  application:
+    name: webprotege-ontology-processing-service
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    password: guest
+    username: guest
+
+
+webprotege:
+  rabbitmq:
+    requestqueue: webprotege-ontology-processing-service-queue
+    responsequeue: webprotege-ontology-processing-service-response-queue
+    timeout: 60000
+  minio:
+    accessKey: webprotege
+    endPoint: http://webprotege-local.edu:9000
+    secretKey: webprotege
+    uploads-bucket-name: webprotege-uploads
+    processed-ontologies-bucket-name: webprotege-processed-ontologies
+  keycloak:
+    serverUrl: http://webprotege-local.edu/auth
+    realmName: webprotege
+    clientId: admin-cli
+    clientSecret: C1MYgWgr9qpLsnNnPS3nbFNf5nGDe5H7
+    username: admin
+    password: password

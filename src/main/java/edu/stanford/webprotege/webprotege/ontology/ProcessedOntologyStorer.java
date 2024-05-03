@@ -28,11 +28,12 @@ import java.util.UUID;
  */
 public class ProcessedOntologyStorer {
 
-    private static final String BUCKET = "webprotege-processed-ontologies";
+    private final MinioProperties minioProperties;
 
     private final MinioClient minioClient;
 
-    public ProcessedOntologyStorer(MinioClient minioClient) {
+    public ProcessedOntologyStorer(MinioProperties minioProperties, MinioClient minioClient) {
+        this.minioProperties = minioProperties;
         this.minioClient = minioClient;
     }
 
@@ -79,8 +80,8 @@ public class ProcessedOntologyStorer {
         storer.storeOntology(ontology, target, new BinaryOWLOntologyDocumentFormat());
     }
 
-    private static BlobLocation generateBlobLocation() {
-        return new BlobLocation(BUCKET, generateObjectName());
+    private BlobLocation generateBlobLocation() {
+        return new BlobLocation(minioProperties.getProcessedOntologiesBucketName(), generateObjectName());
     }
 
     private static String generateObjectName() {

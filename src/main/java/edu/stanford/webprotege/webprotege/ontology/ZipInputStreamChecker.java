@@ -1,5 +1,7 @@
 package edu.stanford.webprotege.webprotege.ontology;
 
+import org.springframework.stereotype.Component;
+
 import javax.inject.Inject;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -13,13 +15,13 @@ import java.nio.file.Path;
  *         Bio-Medical Informatics Research Group
  *         Date: 18/02/2014
  */
+@Component
 public class ZipInputStreamChecker {
 
     public static final char ZIP_FILE_MAGIC_NUMBER_BYTE_0 = 'P';
 
     public static final char ZIP_FILE_MAGIC_NUMBER_BYTE_1 = 'K';
 
-    @Inject
     public ZipInputStreamChecker() {
     }
 

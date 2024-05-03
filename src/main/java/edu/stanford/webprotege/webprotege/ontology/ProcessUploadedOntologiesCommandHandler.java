@@ -21,10 +21,14 @@ public class ProcessUploadedOntologiesCommandHandler implements CommandHandler<P
 
     private final Logger logger = LoggerFactory.getLogger(ProcessUploadedOntologiesCommandHandler.class);
 
-    private UploadedOntologyDocumentsProcessor processor;
+    private final UploadedOntologyDocumentsProcessor processor;
 
-    public ProcessUploadedOntologiesCommandHandler(UploadedOntologyDocumentsProcessor processor) {
+    private final MinioProperties minioProperties;
+
+    public ProcessUploadedOntologiesCommandHandler(UploadedOntologyDocumentsProcessor processor,
+                                                   MinioProperties minioProperties) {
         this.processor = processor;
+        this.minioProperties = minioProperties;
     }
 
     @Nonnull
@@ -41,8 +45,8 @@ public class ProcessUploadedOntologiesCommandHandler implements CommandHandler<P
     @Override
     public Mono<ProcessUploadedOntologiesResponse> handleRequest(ProcessUploadedOntologiesRequest request,
                                                                  ExecutionContext executionContext) {
-        logger.info("Processing uploaded ontologies (DocumentId: {})", request.documentId());
-        var uploadLocation = new BlobLocation("webprotege-uploads", request.documentId().id());
+        logger.info("Processing uploaded ontologies (DocumentId: {})", request.fileSubmissionId());
+        var uploadLocation = new BlobLocation(minioProperties.getUploadsBucketName(), request.fileSubmissionId().id());
         long t0 = System.currentTimeMillis();
         var processedOntologies = processor.processOntologies(uploadLocation);
         long t1 = System.currentTimeMillis();

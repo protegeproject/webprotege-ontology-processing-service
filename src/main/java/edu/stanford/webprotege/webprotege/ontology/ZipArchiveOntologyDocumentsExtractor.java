@@ -5,6 +5,7 @@ import org.semanticweb.owlapi.io.FileDocumentSource;
 import org.semanticweb.owlapi.io.OWLOntologyDocumentSource;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -21,9 +22,9 @@ import java.util.stream.Collectors;
  *         Bio-Medical Informatics Research Group
  *         Date: 19/02/2014
  */
+@Component
 public class ZipArchiveOntologyDocumentsExtractor implements OntologyDocumentsExtractor {
 
-    @Inject
     public ZipArchiveOntologyDocumentsExtractor() {
     }
 

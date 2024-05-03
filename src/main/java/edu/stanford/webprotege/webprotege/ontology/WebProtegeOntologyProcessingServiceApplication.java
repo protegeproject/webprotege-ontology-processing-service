@@ -29,16 +29,6 @@ public class WebProtegeOntologyProcessingServiceApplication {
 	}
 
 	@Bean
-	ZipInputStreamChecker zipInputStreamChecker() {
-		return new ZipInputStreamChecker();
-	}
-
-	@Bean
-	ZipArchiveOntologyDocumentsExtractor zipArchiveProjectSourcesExtractor() {
-		return new ZipArchiveOntologyDocumentsExtractor();
-	}
-
-	@Bean
 	SingleOntologyDocumentExtractor singleOntologyDocumentExtractor() {
 		return new SingleOntologyDocumentExtractor();
 	}
@@ -51,8 +41,8 @@ public class WebProtegeOntologyProcessingServiceApplication {
 	}
 
 	@Bean
-	ProcessedOntologyStorer processedOntologyStorer(MinioClient minioClient) {
-		return new ProcessedOntologyStorer(minioClient);
+	ProcessedOntologyStorer processedOntologyStorer(MinioClient minioClient, MinioProperties minioProperties) {
+		return new ProcessedOntologyStorer(minioProperties, minioClient);
 	}
 
 	@Bean

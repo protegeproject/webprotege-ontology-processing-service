@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Stanford Center for Biomedical Informatics Research
  * 2021-11-16
  */
-public record DocumentId(String id) {
+public record FileSubmissionId(String id) {
 
     @JsonCreator
-    public static DocumentId valueOf(String id) {
-        return new DocumentId(id);
+    public static FileSubmissionId valueOf(String id) {
+        return new FileSubmissionId(id);
     }
 
     @Override
