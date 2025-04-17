@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.stanford.webprotege</groupId>
 	<artifactId>webprotege-ontology-processing-service</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>webprotege-ontology-processing-service</name>
 	<description>A service that processes ontologies before they get incorporated into a project</description>
 	<properties>
