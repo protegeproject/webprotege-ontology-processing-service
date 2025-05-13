@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.stanford.webprotege</groupId>
 	<artifactId>webprotege-ontology-processing-service</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<name>webprotege-ontology-processing-service</name>
 	<description>A service that processes ontologies before they get incorporated into a project</description>
 	<properties>
@@ -95,24 +95,47 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.4.13</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
-						<id>default</id>
+						<id>docker-build</id>
+						<phase>package</phase>
 						<goals>
-							<goal>build</goal>
+							<goal>exec</goal>
 						</goals>
+						<configuration>
+							<executable>docker</executable>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<arguments>
+								<argument>build</argument>
+								<argument>-f</argument>
+								<argument>Dockerfile</argument>
+								<argument>--build-arg</argument>
+								<argument>JAR_FILE=${project.artifactId}-${project.version}.jar</argument>
+								<argument>-t</argument>
+								<argument>protegeproject/${project.artifactId}:${project.version}</argument>
+								<argument>.</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>docker-push</id>
+						<phase>install</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>docker</executable>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<arguments>
+								<argument>push</argument>
+								<argument>protegeproject/${project.artifactId}:${project.version}</argument>
+							</arguments>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<repository>protegeproject/${project.artifactId}</repository>
-					<tag>${project.version}</tag>
-					<buildArgs>
-						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-					</buildArgs>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
